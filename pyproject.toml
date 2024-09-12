@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ruffruleannotator"
+version = "0.0.1"
+dependencies = [
+    "ruff",
+]
+
+[project.scripts]
+ruffruleannotator = "ruffruleannotator.main:main"
