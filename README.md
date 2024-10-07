@@ -45,10 +45,10 @@ quote-style = "single"
 pip install ruffruleannotator
 ```
 
-## Annotate Ruff configurations 
-The tool automatically recognizes ruff configs inside `pyproject.toml` and `ruff.toml`. Currently the entries `select`, `ignore`, `fixable` and `unfixable` inside the lint section of the Ruff config are supported for annotating and sorting. All other parts of the file stay unchanged.
+## Usage
+The tool automatically recognizes ruff configs inside `pyproject.toml` and `ruff.toml`. The entries `select`, `ignore`, `fixable` and `unfixable` inside the Ruff lint section of the config are supported for reformatting. All other parts of the file stay unchanged.
 
-Execute tool inside project root directoy:
+Execute the tool inside project root directory:
 ```shell
 ruffruleannotator
 ```
@@ -60,7 +60,7 @@ ruffruleannotator --no-backup
 ```
 
 ### Keep order of entries
-By default `ruffruleannotator` sorts the rule IDs within the sections alphabetically. The order of entries can be reserved: 
+By default `ruffruleannotator` sorts the rule IDs within the sections alphabetically. The order of entries can be preserved: 
 ```shell
 ruffruleannotator --no-sort
 ```
@@ -91,8 +91,8 @@ After reformatting:
 select = [
     "F403", # undefined-local-with-import-star
     "F404", # late-future-import
-    # A line commented out breaks the sorting. Rule IDs are sorted
-    # seperately above and below the comment section.
+    # Comment lines break the sorting. Rule IDs are sorted
+    # seperately above and below the comment line.
     "F402", # import-shadowed-by-loop-var
     "F406", # already commented lines are not annotated
     # Lines with multiple rule ids are split
