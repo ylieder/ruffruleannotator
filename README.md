@@ -108,8 +108,8 @@ Consider the following config file:
 [tool.ruff.lint]
 select = ["F404",
     "F403",
-    # A line commented out breaks the sorting. Rule IDs are sorted
-    # seperately above and below the comment section.
+    # Comment lines break the sorting. Rule IDs are sorted
+    # seperately above and below the comment line.
     "F406", # already commented lines are not annotated
     "F402",
     # Lines with multiple rule ids are split

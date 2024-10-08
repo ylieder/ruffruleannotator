@@ -2,19 +2,15 @@ from ruffruleannotator import annotate
 
 CONFIG = """
 [tool.ruff.lint]
-select = [
-    "F404",
+select = ["F404",
     "F403",
-    # Lines are not sorted around comment lines.
-    "F402",
-    "F401",
+    # Comment lines break the sorting. Rule IDs are sorted
+    # seperately above and below the comment line.
     "F406", # already commented lines are not annotated
+    "F402",
     # Lines with multiple rule ids are split
     "E112", "E111",
     "E113"]
-
-fixable = [
-]
 """
 
 EXPECTED_OUTPUT = """
@@ -22,8 +18,8 @@ EXPECTED_OUTPUT = """
 select = [
     "F403", # undefined-local-with-import-star
     "F404", # late-future-import
-    # Lines are not sorted around comment lines.
-    "F401", # unused-import
+    # Comment lines break the sorting. Rule IDs are sorted
+    # seperately above and below the comment line.
     "F402", # import-shadowed-by-loop-var
     "F406", # already commented lines are not annotated
     # Lines with multiple rule ids are split
@@ -31,8 +27,6 @@ select = [
     "E112", # no-indented-block
     "E113", # unexpected-indentation
 ]
-
-fixable = []
 """
 
 
