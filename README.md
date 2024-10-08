@@ -40,7 +40,6 @@ quote-style = "single"
 ```
 
 ## Installation
-!!! WIP, COMING SOON !!!
 ```shell
 pip install ruffruleannotator
 ```
