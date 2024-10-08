@@ -68,10 +68,7 @@ def execute(
             exit(0)
 
         diff = compute_diff(config, formatted_config)
-        print("Reformatted the config:")
-        print(80 * "-")
-        print(diff)
-        print(80 * "-")
+        print("\n" + diff + "\n")
 
         if verify_changes:
             input("Press enter to apply changes")

@@ -65,6 +65,37 @@ By default `ruffruleannotator` sorts the rule IDs within the sections alphabetic
 ruffruleannotator --no-sort
 ```
 
+### Interactive mode
+By default `ruffruleannotator` shows changes and waits for user confirmation before cactually changing the config:
+```diff
+Found ruff config in 'pyproject-test.toml'
+
+--- 
++++ 
+@@ -2,9 +2,18 @@
+ name = "packagename"
+ 
+ [tool.ruff.lint]
+-select = ["D100", "D103", "ERA001", "PLR2004", "F"]
++select = [
++    "D100", # undocumented-public-module
++    "D103", # undocumented-pubcode
++    "F", # Pyflakes
++    "PLR2004", # magic-value-comparison
++]
+ 
+-ignore = ["E501", "B"]
++ignore = [
++    "B", # flake8-bugbear
++    "E501", # line-too-long
++]
+ 
+ [tool.ruff.format]
+ quote-style = "single"
+
+Press enter to apply changes
+```
+
 ### Automatically confirm changes
 By default all expected changes are shown before applied and the user must confirm. The manual confirmation can be skipped:
 ```shell
