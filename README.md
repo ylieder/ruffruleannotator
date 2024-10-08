@@ -23,16 +23,16 @@ name = "packagename"
 
 [tool.ruff.lint]
 select = [
-    "D100", # undocumented-public-module
-    "D103", # undocumented-public-function
-    "ERA001", # commented-out-code
-    "F", # Pyflakes
-    "PLR2004", # magic-value-comparison
+    "D100",      # undocumented-public-module (pydocstyle)
+    "D103",      # undocumented-public-function (pydocstyle)
+    "ERA001",    # commented-out-code (eradicate)
+    "F",         # Pyflakes
+    "PLR2004",   # magic-value-comparison (Pylint (Refactor))
 ]
 
 ignore = [
-    "B", # flake8-bugbear
-    "E501", # line-too-long
+    "B",         # flake8-bugbear
+    "E501",      # line-too-long (pycodestyle errors)
 ]
 
 [tool.ruff.format]
@@ -120,16 +120,16 @@ After reformatting:
 ```toml
 [tool.ruff.lint]
 select = [
-    "F403", # undefined-local-with-import-star
-    "F404", # late-future-import
+    "F403",      # undefined-local-with-import-star (Pyflakes)
+    "F404",      # late-future-import (Pyflakes)
     # Comment lines break the sorting. Rule IDs are sorted
     # seperately above and below the comment line.
-    "F402", # import-shadowed-by-loop-var
+    "F402",      # import-shadowed-by-loop-var (Pyflakes)
     "F406", # already commented lines are not annotated
     # Lines with multiple rule ids are split
-    "E111", # indentation-with-invalid-multiple
-    "E112", # no-indented-block
-    "E113", # unexpected-indentation
+    "E111",      # indentation-with-invalid-multiple (pycodestyle errors)
+    "E112",      # no-indented-block (pycodestyle errors)
+    "E113",      # unexpected-indentation (pycodestyle errors)
 ]
 ```
 

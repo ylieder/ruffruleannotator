@@ -47,6 +47,7 @@ def execute(
     backup: bool = True,
     sort_lines: bool = True,
     verify_changes: bool = False,
+    dry: bool = False,
 ):
     for fname in CONFIG_FILES:
         if not Path(fname).exists():
@@ -69,6 +70,10 @@ def execute(
 
         diff = compute_diff(config, formatted_config)
         print("\n" + diff + "\n")
+
+        if dry:
+            print("Dry run - changes not applied")
+            exit(0)
 
         if verify_changes:
             input("Press enter to apply changes")
@@ -98,6 +103,11 @@ def main():
         help="Keep order of rules unchanged",
     )
     parser.add_argument("--yes", action="store_true", help="Skip user confirmation")
+    parser.add_argument(
+        "--dry",
+        action="store_true",
+        help="Do not apply changes to file",
+    )
 
     args = parser.parse_args()
 
@@ -106,6 +116,7 @@ def main():
             backup=not args.no_backup,
             sort_lines=not args.no_sort,
             verify_changes=not args.yes,
+            dry=args.dry,
         )
     except KeyboardInterrupt:
         exit(0)

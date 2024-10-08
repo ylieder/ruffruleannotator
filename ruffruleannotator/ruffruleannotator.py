@@ -40,12 +40,13 @@ def get_rule_description(id):
         text=True,
     )
 
-    if output.returncode != 0 and output.stderr.startswith("error: invalid value"):
-        letters, digits = re.match(r"([A-Z]+)([0-9]*)", id).group(1, 2)
-        assert letters in RULE_SETS
-        return f"Subset of {RULE_SETS[letters]}"
+    letters, digits = re.match(r"([A-Z]+)([0-9]*)", id).group(1, 2)
+    assert letters in RULE_SETS
+    rule_set = RULE_SETS[letters]
 
-    assert output.returncode == 0
+    if output.returncode != 0 and output.stderr.startswith("error: invalid value"):
+        return f"Subset of {rule_set}"
+
     description = output.stdout.splitlines()[0]
 
     if description.startswith("# "):
@@ -53,7 +54,7 @@ def get_rule_description(id):
     if description.endswith(f" ({id})"):
         description = description[: -len(id) - 3]
 
-    return description
+    return f"{description} ({rule_set})"
 
 
 def annotate(config: list[str], sort_lines: bool = True) -> list[str]:
@@ -113,7 +114,8 @@ def annotate(config: list[str], sort_lines: bool = True) -> list[str]:
 
             for id in rule_ids:
                 rule_description = get_rule_description(id)
-                lines_to_sort.append(f'{INDENTATION}"{id}", # {rule_description}')
+                rule_id_str = f'{INDENTATION}"{id}",'.ljust(16)
+                lines_to_sort.append(f"{rule_id_str} # {rule_description}")
 
             if is_relavant_section_end(line):
                 if formatted_lines[-1].endswith("[") and len(lines_to_sort) == 0:
