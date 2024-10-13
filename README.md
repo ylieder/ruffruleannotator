@@ -1,4 +1,5 @@
-![Logo](docs/logo.png)
+<!-- Image URL must be absolute path on main branch in order to be shown in PyPI -->
+![Logo](https://raw.githubusercontent.com/ylieder/ruffruleannotator/main/docs/logo.png)
 
 # ruffruleannotator
 
