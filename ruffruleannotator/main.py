@@ -44,11 +44,12 @@ def compute_diff(config, formatted_config):
 
 
 def execute(
-    backup: bool = True,
     sort_lines: bool = True,
     verify_changes: bool = False,
-    dry: bool = False,
+    check: bool = False,
+    backup: bool = True,
 ):
+    found_config = False
     for fname in CONFIG_FILES:
         if not Path(fname).exists():
             continue
@@ -59,6 +60,7 @@ def execute(
         if fname != "ruff.toml" and "[tool.ruff" not in config:
             continue
 
+        found_config = True
         print(f"Found ruff config in '{fname}'")
 
         config = config.splitlines()
@@ -71,9 +73,9 @@ def execute(
         diff = compute_diff(config, formatted_config)
         print("\n" + diff + "\n")
 
-        if dry:
-            print("Dry run - changes not applied")
-            exit(0)
+        if check:
+            print("Config would be reformatted")
+            exit(1)
 
         if verify_changes:
             input("Press enter to apply changes")
@@ -86,15 +88,17 @@ def execute(
             f.write("\n".join(formatted_config))
             print("Reformatted config")
 
+    if not found_config:
+        print("No ruff config found")
+
 
 def main():
     parser = argparse.ArgumentParser()
 
     parser.add_argument(
-        "--no-backup",
-        dest="no_backup",
+        "--check",
         action="store_true",
-        help="Skip creation of config backup",
+        help="Check if ruff config would be reformatted without applying changes",
     )
     parser.add_argument(
         "--no-sort",
@@ -104,19 +108,20 @@ def main():
     )
     parser.add_argument("--yes", action="store_true", help="Skip user confirmation")
     parser.add_argument(
-        "--dry",
+        "--no-backup",
+        dest="no_backup",
         action="store_true",
-        help="Do not apply changes to file",
+        help="Skip creation of config backup",
     )
 
     args = parser.parse_args()
 
     try:
         execute(
-            backup=not args.no_backup,
             sort_lines=not args.no_sort,
             verify_changes=not args.yes,
-            dry=args.dry,
+            check=args.check,
+            backup=not args.no_backup,
         )
     except KeyboardInterrupt:
         exit(0)

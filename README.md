@@ -54,22 +54,25 @@ Execute the tool inside project root directory:
 ruffruleannotator
 ```
 
-### Backup
-By default a backup of the config file is stored under `~/.ruffruleannotator/backup`. Only the latest version of each project directory is stored. The creation of a config backup can be ignored:
-```shell
-ruffruleannotator --no-backup
-```
-
 ### Keep order of entries
 By default `ruffruleannotator` sorts the rule IDs within the sections alphabetically. The order of entries can be preserved: 
 ```shell
 ruffruleannotator --no-sort
 ```
 
+### Check
+`ruffruleannotator` can be easily integrated in a CI/CD pipeline by checking if changes
+would be applied or not. Running
+```shell
+ruffruleannotator --check
+```
+will return with exit code 0 or 1 respectively without applying any changes.
+
+
 ### Interactive mode
-By default `ruffruleannotator` shows changes and waits for user confirmation before cactually changing the config:
+By default `ruffruleannotator` shows changes and waits for user confirmation before actually changing the config:
 ```diff
-Found ruff config in 'pyproject-test.toml'
+Found ruff config in 'pyproject.toml'
 
 --- 
 +++ 
@@ -79,16 +82,17 @@ Found ruff config in 'pyproject-test.toml'
  [tool.ruff.lint]
 -select = ["D100", "D103", "ERA001", "PLR2004", "F"]
 +select = [
-+    "D100", # undocumented-public-module
-+    "D103", # undocumented-pubcode
-+    "F", # Pyflakes
-+    "PLR2004", # magic-value-comparison
++    "D100",      # undocumented-public-module (pydocstyle)
++    "D103",      # undocumented-public-function (pydocstyle)
++    "ERA001",    # commented-out-code (eradicate)
++    "F",         # Pyflakes
++    "PLR2004",   # magic-value-comparison (Pylint [Refactor])
 +]
  
 -ignore = ["E501", "B"]
 +ignore = [
-+    "B", # flake8-bugbear
-+    "E501", # line-too-long
++    "B",         # flake8-bugbear
++    "E501",      # line-too-long (pycodestyle errors)
 +]
  
  [tool.ruff.format]
@@ -97,8 +101,7 @@ Found ruff config in 'pyproject-test.toml'
 Press enter to apply changes
 ```
 
-### Automatically confirm changes
-By default all expected changes are shown before applied and the user must confirm. The manual confirmation can be skipped:
+Changes can be applied without user confirmation by calling
 ```shell
 ruffruleannotator --yes
 ```
